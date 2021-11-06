@@ -60,7 +60,7 @@ for i in range(len(download_list)):
 
 # wait for all downloads to finish
 fileends = "crdownload"
-dir = path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
+dir = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
 while "crdownload" == fileends:
     time.sleep(1)
     newest_file = latest_download_file(path = dir)
