@@ -71,3 +71,6 @@ for i in range(len(download_list)):
     with gzip.open(f'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data/{download_list[i]}', 'rb') as f_in:
         with open(f'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/{download_list[i][:-3]}', 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
+
+# close browser
+driver.quit()
