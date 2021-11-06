@@ -15,6 +15,17 @@ if not os.path.isdir('Data Collecting/imdb dataset/raw_data'):
 if not os.path.isdir('Data Collecting/imdb dataset/extracted_data'):
     os.makedirs('Data Collecting/imdb dataset/extracted_data')
 
+def latest_download_file():
+    """
+    function to wait for pending downloads to finish 
+    """
+    path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
+    os.chdir(path)
+    files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
+    newest = files[-1]
+
+    return newest
+
 # download url
 url = 'https://datasets.imdbws.com'
 
@@ -43,17 +54,6 @@ download_list = ['title.akas.tsv.gz',
 # download raw files                 
 for i in range(len(download_list)):
     driver.find_element_by_link_text(f'{download_list[i]}').click()
-
-def latest_download_file():
-    """
-    function to wait for pending downloads to finish 
-    """
-    path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
-    os.chdir(path)
-    files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
-    newest = files[-1]
-
-    return newest
 
 # wait for all downloads to finish
 fileends = "crdownload"
