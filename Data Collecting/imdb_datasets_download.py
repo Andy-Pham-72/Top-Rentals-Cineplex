@@ -18,11 +18,10 @@ if not os.path.isdir(directory_0):
 if not os.path.isdir(directory_1):
     os.makedirs(directory_1)
 
-def latest_download_file():
+def latest_download_file(path):
     """
     function to wait for pending downloads to finish 
     """
-    path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
     os.chdir(path)
     files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
     newest = files[-1]
@@ -61,9 +60,10 @@ for i in range(len(download_list)):
 
 # wait for all downloads to finish
 fileends = "crdownload"
+dir = path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
 while "crdownload" == fileends:
     time.sleep(1)
-    newest_file = latest_download_file()
+    newest_file = latest_download_file(path = dir)
     if "crdownload" in newest_file:
         fileends = "crdownload"
     else:
