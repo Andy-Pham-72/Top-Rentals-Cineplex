@@ -8,41 +8,15 @@ from selenium import webdriver
 import gzip
 import shutil
 
-# check for extraction directories existence
+# check for directories existence
 if not os.path.isdir('Data Collecting/imdb dataset/raw_data'):
     os.makedirs('Data Collecting/imdb dataset/raw_data')
 
 if not os.path.isdir('Data Collecting/imdb dataset/extracted_data'):
     os.makedirs('Data Collecting/imdb dataset/extracted_data')
 
-
-def download_wait(directory, nfiles=None):
-    """
-    Wait for downloads to finish with a specified timeout.
-
-    Args
-    ----
-    directory : str
-        The path to the folder where the files will be downloaded.
-    timeout : int
-        How many seconds to wait until timing out.
-    nfiles : int, defaults to None
-        If provided, also wait for the expected number of files.
-
-    """
-    seconds = 0
-    dl_wait = True
-    while dl_wait is True:
-        files = os.listdir(directory)
-        if nfiles and len(files) != nfiles:
-            dl_wait = True
-
-        for fname in files:
-            if fname.endswith('.crdownload'):
-                dl_wait = True
-
-        seconds += 5
-        time.sleep(seconds)
+# download url
+url = 'https://datasets.imdbws.com'
 
 # path to the chrome driver
 chrome_path = 'Data Collecting/chromedriver'
@@ -56,7 +30,7 @@ preferences = {"download.default_directory": download_dir ,
 chrome_options.add_experimental_option("prefs", preferences)
 
 driver = webdriver.Chrome(chrome_path, chrome_options= chrome_options)
-driver.get('https://datasets.imdbws.com')
+driver.get(url)
 
 # list of files
 download_list = ['title.akas.tsv.gz',
@@ -70,15 +44,18 @@ download_list = ['title.akas.tsv.gz',
 for i in range(len(download_list)):
     driver.find_element_by_link_text(f'{download_list[i]}').click()
 
-
 def latest_download_file():
-      path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
-      os.chdir(path)
-      files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
-      newest = files[-1]
+    """
+    function to wait for pending downloads to finish 
+    """
+    path = r'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data'
+    os.chdir(path)
+    files = sorted(os.listdir(os.getcwd()), key=os.path.getmtime)
+    newest = files[-1]
 
-      return newest
+    return newest
 
+# wait for all downloads to finish
 fileends = "crdownload"
 while "crdownload" == fileends:
     time.sleep(1)
@@ -87,8 +64,6 @@ while "crdownload" == fileends:
         fileends = "crdownload"
     else:
         fileends = "none"
-
-
 
 # unzip gz files
 for i in range(len(download_list)):
