@@ -54,6 +54,7 @@ download_list = ['title.akas.tsv.gz',
 # download raw files                 
 for i in range(len(download_list)):
     driver.find_element_by_link_text(f'{download_list[i]}').click()
+    print(f'downloading: {download_list[i]}.......')
 
 # wait for all downloads to finish
 fileends = "crdownload"
@@ -64,6 +65,8 @@ while "crdownload" == fileends:
         fileends = "crdownload"
     else:
         fileends = "none"
+
+print('download complete!')
 
 # unzip gz files
 for i in range(len(download_list)):
