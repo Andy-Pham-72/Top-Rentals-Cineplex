@@ -4,6 +4,6 @@ This is the top rental movies list from website [cineplex](https://store.cineple
 
 The dataframe has below columns:
 
-* title: international title of the movie.
-* year: release year.
-* synopsis: snippet of the movie story.
+* title (string): international title of the movie.
+* year (integer): release year.
+* synopsis (string): snippet of the movie story.
