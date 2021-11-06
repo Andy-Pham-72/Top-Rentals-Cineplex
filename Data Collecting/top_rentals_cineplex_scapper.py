@@ -48,7 +48,8 @@ chrome_path = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/ch
 # set proxy to prevent selenium detector
 PROXY = "23.23.23.23:3128" # IP:PORT or HOST:PORT
 capabilities = dict(DesiredCapabilities.CHROME)
-capabilities['proxy'] = {'proxyType': 'MANUAL','httpProxy': '23.23.23.23:3128','ftpProxy': '23.23.23.23:3128','sslProxy': '23.23.23.23:3128','noProxy': '','class': "org.openqa.selenium.Proxy",'autodetect': False}
+capabilities['proxy'] = {'proxyType': 'MANUAL','httpProxy': '23.23.23.23:3128','ftpProxy': '23.23.23.23:3128',\
+                         'sslProxy': '23.23.23.23:3128','noProxy': '','class': "org.openqa.selenium.Proxy",'autodetect': False}
 chrome_options = Options()
 chrome_options.add_argument("--disable-notifications")
 chrome_options.add_argument('--no-sandbox')
@@ -71,7 +72,8 @@ except TimeoutException:
 
 # get all the top rental links using list comprehension combined with selenium
 class_link = "movie-pdp-link"
-titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, timeout).until(EC.presence_of_all_elements_located((By.CLASS_NAME, class_link)))]
+titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, timeout). \
+                   until(EC.presence_of_all_elements_located((By.CLASS_NAME, class_link)))]
 
 # create empty list    
 rentals = []
