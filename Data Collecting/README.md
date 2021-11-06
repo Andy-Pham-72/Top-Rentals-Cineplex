@@ -2,7 +2,7 @@
 
 * In order to run [**`imdb_datasets_download.py`**](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/blob/master/Data%20Collecting/imdb_datasets_download.py) and [**`top_rentals_cineplex_scapper.py`**](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/blob/master/Data%20Collecting/top_rentals_cineplex_scapper.py), we have to install the `Selenium` package or you can refer to this [link](https://selenium-python.readthedocs.io/installation.html#drivers) for more information:
 
-```
+```bash
 pip install selenium
 ```
 
