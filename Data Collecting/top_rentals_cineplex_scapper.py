@@ -12,8 +12,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # check for directories existence
-if not os.path.isdir('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data'):
-    os.makedirs('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data')
+directory_0 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data'
+if not os.path.isdir(directory_0):
+    os.makedirs(directory_0)
 
 # create class to store data
 class Rental(object):
@@ -36,7 +37,7 @@ def save_rentals_to_csv_file(rentals_list, file_name):
         
         for rental in rentals_list:
             
-            writer.writerow({'title' : rental.title, 'year' : rental.year, 'synopsis' : rental.synopsis })
+            writer.writerow({'title' : rental.title, 'year' : int(rental.year), 'synopsis' : rental.synopsis })
             
 # download url
 url = 'https://store.cineplex.com/collection2017?type=Top%20Rentals'
@@ -63,12 +64,14 @@ driver.get(url)
 # set timeout
 timeout = 5
 try:
-    WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='movie-collections-grid']/div[2]/div")))
+    xpath_movie_list = "//*[@id='movie-collections-grid']/div[2]/div"
+    WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_movie_list)))
 except TimeoutException:
     print("Timed out waiting for page to load")
 
 # get all the top rental links using list comprehension combined with selenium
-titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, timeout).until(EC.presence_of_all_elements_located((By.CLASS_NAME,"movie-pdp-link")))]
+class_link = "movie-pdp-link"
+titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, timeout).until(EC.presence_of_all_elements_located((By.CLASS_NAME, class_link)))]
 
 # create empty list    
 rentals = []
@@ -78,16 +81,29 @@ for link in titles_links:
     driver.get(link)
     print(f'downloading: {link} .......')
     try:
-        title = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[1]/span"))).text
-        year  = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[3]/span"))).text
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"))).text 
+        xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[1]/span"
+        xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[3]/span"
+        xpath_synosis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"
+        xpath_synosis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"
+        
+        # retrieve data
+        title = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_title))).text
+        year  = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_year))).text
+        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synosis_1))).text 
+        
+        # slow down the execution
         time.sleep(5)
+
     except TimeoutException:
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"))).text 
+        # retrieve data due to different html setup
+        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synosis_2))).text 
+    
+    # append data to rentals list
     rentals.append(Rental(title, year, synopsis))
 
-# write csv file            
-save_rentals_to_csv_file(rentals_list = rentals, file_name = "/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/rentals_list.csv")
+# write csv file
+directory_1 = "/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/rentals_list.csv"            
+save_rentals_to_csv_file(rentals_list = rentals, file_name = directory_1)
 
 # close browser
 driver.quit()
