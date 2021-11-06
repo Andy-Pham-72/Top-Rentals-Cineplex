@@ -75,7 +75,7 @@ print('download complete!')
 for i in range(len(download_list)):
     time.sleep(3)
     directory_2 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data/'
-    directory_3 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/''
+    directory_3 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/'
     with gzip.open( directory_2 + {download_list[i]} , 'rb') as f_in:
         with open( directory_3 + {download_list[i][:-3]} , 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
