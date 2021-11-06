@@ -1,20 +1,3 @@
-```python
-import pandas as pd
-
-title_basics = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.basics.tsv', sep='\t')
-title_crew = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.crew.tsv', sep='\t')
-title_principals = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.principals.tsv', sep='\t')
-title_ratings = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.ratings.tsv', sep='\t')
-name_basics = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/name.basics.tsv', sep='\t')
-title_akas = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.akas.tsv', sep='\t')
-```
-
-    /Users/quanganhpham/opt/anaconda3/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3146: DtypeWarning: Columns (4,5) have mixed types.Specify dtype option on import or set low_memory=False.
-      has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-    /Users/quanganhpham/opt/anaconda3/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3146: DtypeWarning: Columns (7) have mixed types.Specify dtype option on import or set low_memory=False.
-      has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-
-
 ## Metadata
 
 Each dataset is contained in a gzipped, which is stored at [raw_data](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/tree/master/Data%20Collecting/imdb%20dataset/raw_data), tab-separated-values (TSV) formatted file, which is stored at [extracted_data](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/tree/master/Data%20Collecting/imdb%20dataset/extracted_data) in the UTF-8 character set. I also attached the google drive link so you can download from that easily.
