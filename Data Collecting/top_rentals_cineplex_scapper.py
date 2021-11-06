@@ -85,20 +85,20 @@ for link in titles_links:
     try:
         xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[1]/span"
         xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[3]/span"
-        xpath_synosis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"
-        xpath_synosis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"
+        xpath_synopsis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"
+        xpath_synopsis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"
         
         # retrieve data
         title = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_title))).text
         year  = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_year))).text
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synosis_1))).text 
+        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_1))).text 
         
         # slow down the execution
         time.sleep(5)
 
     except TimeoutException:
         # retrieve data due to different html setup
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synosis_2))).text 
+        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_2))).text 
     
     # append data to rentals list
     rentals.append(Rental(title, year, synopsis))
