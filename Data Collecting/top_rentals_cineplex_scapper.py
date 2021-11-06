@@ -15,6 +15,29 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 if not os.path.isdir('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data'):
     os.makedirs('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data')
 
+# create class to store data
+class Rental(object):
+    '''
+    Class Rental to store "title", "year", "synopsis" data
+    '''
+    def __init__(self, title, year, synopsis):
+        self.title = title
+        self.year = year
+        self.synopsis = synopsis
+
+def save_rentals_to_csv_file(rentals_list, file_name):
+    """
+    function to write csv "rentals" variable to csv file
+    """
+    with open(file_name, 'w') as csvfile:
+        fieldnames = ['title', 'year', 'synopsis']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for rental in rentals_list:
+            
+            writer.writerow({'title' : rental.title, 'year' : rental.year, 'synopsis' : rental.synopsis })
+            
 # download url
 url = 'https://store.cineplex.com/collection2017?type=Top%20Rentals'
 
@@ -47,16 +70,6 @@ except TimeoutException:
 # get all the top rental links using list comprehension combined with selenium
 titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, timeout).until(EC.presence_of_all_elements_located((By.CLASS_NAME,"movie-pdp-link")))]
 
-# create class to store data
-class Rental(object):
-    '''
-    Class Rental to store "title", "year", "synopsis" data
-    '''
-    def __init__(self, title, year, synopsis):
-        self.title = title
-        self.year = year
-        self.synopsis = synopsis
-
 # create empty list    
 rentals = []
 
@@ -72,19 +85,6 @@ for link in titles_links:
     except TimeoutException:
         synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"))).text 
     rentals.append(Rental(title, year, synopsis))
-
-def save_rentals_to_csv_file(rentals_list, file_name):
-    """
-    function to write csv "rentals" variable to csv file
-    """
-    with open(file_name, 'w') as csvfile:
-        fieldnames = ['title', 'year', 'synopsis']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        
-        for rental in rentals_list:
-            
-            writer.writerow({'title' : rental.title, 'year' : rental.year, 'synopsis' : rental.synopsis })
 
 # write csv file            
 save_rentals_to_csv_file(rentals_list = rentals, file_name = "/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/rentals_list.csv")
