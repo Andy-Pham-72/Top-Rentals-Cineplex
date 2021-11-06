@@ -9,11 +9,14 @@ import gzip
 import shutil
 
 # check for directories existence
-if not os.path.isdir('Data Collecting/imdb dataset/raw_data'):
-    os.makedirs('Data Collecting/imdb dataset/raw_data')
+directory_0 = 'Data Collecting/imdb dataset/raw_data'
+directory_1 = 'Data Collecting/imdb dataset/extracted_data'
 
-if not os.path.isdir('Data Collecting/imdb dataset/extracted_data'):
-    os.makedirs('Data Collecting/imdb dataset/extracted_data')
+if not os.path.isdir(directory_0):
+    os.makedirs(directory_0)
+
+if not os.path.isdir(directory_1):
+    os.makedirs(directory_1)
 
 def latest_download_file():
     """
@@ -71,8 +74,10 @@ print('download complete!')
 # unzip gz files
 for i in range(len(download_list)):
     time.sleep(3)
-    with gzip.open(f'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data/{download_list[i]}', 'rb') as f_in:
-        with open(f'/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/{download_list[i][:-3]}', 'wb') as f_out:
+    directory_2 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/raw_data/'
+    directory_3 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/''
+    with gzip.open( directory_2 + {download_list[i]} , 'rb') as f_in:
+        with open( directory_3 + {download_list[i][:-3]} , 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
 
 # close browser
