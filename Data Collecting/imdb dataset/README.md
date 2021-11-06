@@ -1,20 +1,3 @@
-```python
-import pandas as pd
-
-title_basics = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.basics.tsv', sep='\t')
-title_crew = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.crew.tsv', sep='\t')
-title_principals = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.principals.tsv', sep='\t')
-title_ratings = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.ratings.tsv', sep='\t')
-name_basics = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/name.basics.tsv', sep='\t')
-title_akas = pd.read_csv('/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/imdb dataset/extracted_data/title.akas.tsv', sep='\t')
-```
-
-    /Users/quanganhpham/opt/anaconda3/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3146: DtypeWarning: Columns (4,5) have mixed types.Specify dtype option on import or set low_memory=False.
-      has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-    /Users/quanganhpham/opt/anaconda3/lib/python3.8/site-packages/IPython/core/interactiveshell.py:3146: DtypeWarning: Columns (7) have mixed types.Specify dtype option on import or set low_memory=False.
-      has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-
-
 ## Metadata
 
 Each dataset is contained in a gzipped, which is stored at [raw_data](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/tree/master/Data%20Collecting/imdb%20dataset/raw_data), tab-separated-values (TSV) formatted file, which is stored at [extracted_data](https://github.com/Andy-Pham-72/Top-Rentals-Cineplex/tree/master/Data%20Collecting/imdb%20dataset/extracted_data) in the UTF-8 character set. I also attached the google drive link so you can download from that easily.
@@ -32,28 +15,6 @@ The first line in each file contains headers that describe what is in each colum
 * attributes (array) - Additional terms to describe this alternative title, not enumerated
 * isOriginalTitle (boolean) – 0: not original title; 1: original title
 
-
-```python
-title_akas.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -143,27 +104,6 @@ title_akas.head(5)
 * genres (string array) – includes up to three genres associated with the title
 
 
-```python
-title_basics.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -253,27 +193,6 @@ title_basics.head(5)
 * writers (array of nconsts) – writer(s) of the given title
 
 
-```python
-title_crew.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -329,28 +248,6 @@ title_crew.head(5)
 * job (string) - the specific job title if applicable, else '\N'
 * characters (string) - the name of the character played if applicable, else '\N'
 
-
-```python
-title_principals.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -422,27 +319,6 @@ title_principals.head(5)
 * numVotes - number of votes the title has received
 
 
-```python
-title_ratings.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -499,27 +375,6 @@ title_ratings.head(5)
 * knownForTitles (array of tconsts) – titles the person is known for
 
 
-```python
-name_basics.head(5)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
