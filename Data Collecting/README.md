@@ -12,5 +12,6 @@ pip install selenium
 
 ### Future work:
 
-* I want to incorporate API python script to gather additional data from [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction).
-* I want to scrape some additional critics data which is corresponding to the top rental movies in Cineplex from [RottenTomatoes](https://www.rottentomatoes.com/).
+* Edits the string format of movie titles of the top rentals Cineplex to match with the imdb dataset's movie titles format.
+* Incorporates API python script to gather additional data from [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction).
+* Scrapes some additional critics data which is corresponding to the top rental movies in Cineplex from [RottenTomatoes](https://www.rottentomatoes.com/).
