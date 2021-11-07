@@ -9,3 +9,8 @@ pip install selenium
 * We also have to find the right chrome driver which is corresponding to your current chrome browser version in your computer which you can find in this [link](https://sites.google.com/chromium.org/driver/).
 
 * In case you are using different browsers, you can find your proper driver in this [link](https://selenium-python.readthedocs.io/installation.html#drivers).
+
+### Future work:
+
+* I want to incorporate API python script to gather additional data from [The Movie Database API](https://developers.themoviedb.org/3/getting-started/introduction).
+* I want to scrape some additional critics data which is corresponding to the top rental movies in Cineplex from [RottenTomatoes](https://www.rottentomatoes.com/).
