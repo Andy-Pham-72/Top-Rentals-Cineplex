@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # check for directories existence
-directory_0 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/top_rental_data'
+directory_0 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/'
 if not os.path.isdir(directory_0):
     os.makedirs(directory_0)
 
