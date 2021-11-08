@@ -89,7 +89,7 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
 
 **title.basics.tsv** - Contains the following information for titles:
 
@@ -184,7 +184,7 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
 
 **title.crew.tsv** – Contains the director and writer information for all the titles in IMDb. Fields include:
 
@@ -237,7 +237,7 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
 
 **title.principals.tsv** – Contains the principal cast/crew for titles
 
@@ -310,7 +310,7 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
 
 **title.ratings.tsv** – Contains the IMDb rating and votes information for titles
 
@@ -363,7 +363,7 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
 
 **name.basics.tsv.gz** – Contains the following information for names:
 
@@ -437,4 +437,4 @@ The first line in each file contains headers that describe what is in each colum
 </table>
 </div>
 
-
+---------------------------------
