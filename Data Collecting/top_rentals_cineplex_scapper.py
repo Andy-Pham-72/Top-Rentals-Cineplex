@@ -1,6 +1,10 @@
 import os
 import time
 import csv
+import datetime
+
+# config
+from config import config_cineplex
 
 # web scrapper modules
 from selenium import webdriver
@@ -11,13 +15,17 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+# config variable
+my_config = config_cineplex()
+
 # check for directories existence
-directory_0 = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/'
+directory_0 = my_config[0]
+
 if not os.path.isdir(directory_0):
     os.makedirs(directory_0)
 
 # create class to store data
-class Rental(object):
+class Rental:
     '''
     Class Rental to store "title", "year", "synopsis" data
     '''
@@ -40,7 +48,7 @@ def save_rentals_to_csv_file(rentals_list, file_name):
             writer.writerow({'title' : rental.title, 'year' : int(rental.year), 'synopsis' : rental.synopsis })
             
 # download url
-url = 'https://store.cineplex.com/collection2017?type=Top%20Rentals'
+url = my_config[2]
 
 # path to the chrome driver
 chrome_path = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/chromedriver'
@@ -83,10 +91,10 @@ for link in titles_links:
     driver.get(link)
     print(f'downloading: {link} .......')
     try:
-        xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[1]/span"
-        xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[3]/span"
-        xpath_synopsis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"
-        xpath_synopsis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div/span[1]"
+        xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/h1/span"
+        xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[2]/span"
+        xpath_synopsis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div"
+        xpath_synopsis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div"
         
         # retrieve data
         title = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_title))).text
@@ -104,7 +112,7 @@ for link in titles_links:
     rentals.append(Rental(title, year, synopsis))
 
 # write csv file
-directory_1 = "/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/cineplex dataset/rentals_list.csv"            
+directory_1 = my_config[1] + datetime.today().strftime("%Y%m%d")+ ".csv"            
 save_rentals_to_csv_file(rentals_list = rentals, file_name = directory_1)
 
 # close browser
