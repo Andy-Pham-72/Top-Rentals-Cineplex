@@ -1,7 +1,7 @@
 import os
 import time
 import csv
-import datetime
+from datetime import datetime
 
 # config
 from config import config_cineplex
@@ -19,7 +19,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 my_config = config_cineplex()
 
 # check for directories existence
-directory_0 = my_config[0]
+directory_0 = my_config["directory_save1"]
 
 if not os.path.isdir(directory_0):
     os.makedirs(directory_0)
@@ -37,6 +37,9 @@ class Rental:
 def save_rentals_to_csv_file(rentals_list, file_name):
     """
     function to write csv "rentals" variable to csv file
+    
+    :param:
+    
     """
     with open(file_name, 'w') as csvfile:
         fieldnames = ['title', 'year', 'synopsis']
@@ -48,10 +51,10 @@ def save_rentals_to_csv_file(rentals_list, file_name):
             writer.writerow({'title' : rental.title, 'year' : int(rental.year), 'synopsis' : rental.synopsis })
             
 # download url
-url = my_config[2]
+url = my_config['url']
 
 # path to the chrome driver
-chrome_path = '/Volumes/Moon/SpringBoard/Top Rentals Cineplex/Data Collecting/chromedriver'
+chrome_path = my_config['chrome_path']
 
 # set proxy to prevent selenium detector
 PROXY = "23.23.23.23:3128" # IP:PORT or HOST:PORT
@@ -85,11 +88,13 @@ titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, tim
 
 # create empty list    
 rentals = []
+i = 0
 
 # append data into the list
 for link in titles_links:
     driver.get(link)
-    print(f'downloading: {link} .......')
+    print(f'downloading #{i}: {link} .......')
+    i += 1 
     try:
         xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/h1/span"
         xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[2]/span"
@@ -112,7 +117,7 @@ for link in titles_links:
     rentals.append(Rental(title, year, synopsis))
 
 # write csv file
-directory_1 = my_config[1] + datetime.today().strftime("%Y%m%d")+ ".csv"            
+directory_1 = my_config["directory_save2"] + datetime.today().strftime('%Y-%m-%d')+ ".csv"            
 save_rentals_to_csv_file(rentals_list = rentals, file_name = directory_1)
 
 # close browser
