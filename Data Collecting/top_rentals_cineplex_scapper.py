@@ -4,7 +4,7 @@ import csv
 from datetime import datetime
 
 # config
-from config import config_cineplex
+from configdirectory import ConfigDirectory
 
 # web scrapper modules
 from selenium import webdriver
@@ -16,7 +16,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # config variable
-my_config = config_cineplex()
+my_config = ConfigDirectory("cineplex.ini","directory").config_directory()
 
 # check for directories existence
 directory_0 = my_config["directory_save1"]
@@ -96,16 +96,17 @@ for link in titles_links:
     print(f'downloading #{i}: {link} .......')
     i += 1 
     try:
-        xpath_title = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/h1/span"
-        xpath_year = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[2]/span"
-        xpath_synopsis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div"
-        xpath_synopsis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[6]/div/div"
-        
+        xpath_title_1    = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/h1/span"
+        xpath_title_2    = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[2]/h1/span"
+        xpath_year       = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[2]/span"
+        xpath_synopsis_1 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[5]/div/div/span[1]"
+        xpath_synopsis_2 = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[7]/div/div/span[1]"
+
         # retrieve data
-        title = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_title))).text
-        year  = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_year))).text
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_1))).text 
-        
+        title = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath_title_1))).text
+        year  = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath_year))).text
+        synopsis = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_1))).text 
+       
         # slow down the execution
         time.sleep(5)
 
