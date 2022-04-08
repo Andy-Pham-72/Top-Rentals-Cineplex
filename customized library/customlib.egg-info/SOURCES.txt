@@ -1,0 +1,10 @@
+setup.py
+customlib/__init__.py
+customlib.egg-info/PKG-INFO
+customlib.egg-info/SOURCES.txt
+customlib.egg-info/dependency_links.txt
+customlib.egg-info/top_level.txt
+customlib/config/__init__.py
+customlib/config/configdirectory.py
+customlib/customlogger/__init__.py
+customlib/customlogger/setuplogger.py
