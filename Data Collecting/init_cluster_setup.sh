@@ -2,6 +2,8 @@
 # install databricks cli
 cat > /dbfs/init/inst_dbfs_cli.sh <<EOF
 pip install databricks-cli
+pip install azure-storage-logging
+pip install azure-storage-blob
 > ~/.databrickscfg
 echo "[DEFAULT]" >> ~/.databrickscfg
 echo "host = https://adb-4564373645402638.18.azuredatabricks.net" >> ~/.databrickscfg
