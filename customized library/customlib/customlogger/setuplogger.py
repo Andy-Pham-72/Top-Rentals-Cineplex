@@ -1,40 +1,36 @@
 import logging
-from logging.handlers import RotatingFileHandler
+import sys
+from azure_storage_logging.handlers import BlobStorageRotatingFileHandler
 
 
-def setup_logger(log_name):
+def setup_logger(log_name, account_name, account_key, container_name):
     """
     the method that creates log files
     
-    :param log_name: string
-                The name of the log file
+    :param log_name: str
+                The name of the log file. eg: "service.log"
+    :param account_name: str
+                The name of storage account
+    :param account_key: str
+                The key of storage account
+    :param container_name: str
+                The name of container
+
     :return: logger
 
     """
 
-    MAX_BYTES = 10000000 # Maximum size for a log file
+    logger = logging.getLogger('service_logger')
+    log_formater = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(process)d - %(message)s')
+    azure_blob_handler = BlobStorageRotatingFileHandler(filename = log_name, 
+                                                        account_name= account_name,
+                                                        account_key= account_key,
+                                                        maxBytes=5,
+                                                        container= container_name)
+    azure_blob_handler.setLevel(logging.INFO)
+    azure_blob_handler.setFormatter(log_formater)
+    logger.addHandler(azure_blob_handler)
 
-    # create logger
-    logger = logging.getLogger(__name__) 
-    logger.setLevel(logging.INFO) # the level should be the lowest level set in handlers
-    
-    # create file handler which logs even record messages
-    info_handler = RotatingFileHandler(log_name, maxBytes=MAX_BYTES)
-    info_handler.setLevel(logging.INFO)
-
-    # create console handler with a higher log level
-    error_handler = logging.StreamHandler()
-    error_handler.setLevel(logging.ERROR)
-
-    # create formatter and add to the handlers
-    log_format = logging.Formatter('[%(levelname)s] %(asctime)s - %(message)s')
-    info_handler.setFormatter(log_format)
-    error_handler.setFormatter(log_format)
-
-    # add the handlers to the logger
-    logger.addHandler(info_handler)
-    logger.addHandler(error_handler)
+    logger.warning('warning message')
     
     return logger
-
-logger = setup_logger()
