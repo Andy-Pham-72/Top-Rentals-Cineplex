@@ -1,13 +1,11 @@
-import os
-import time
-import csv
-from datetime import datetime
+# import custom module
+from customlib.config.configdirectory import config_directory
+from customlib.customlogger.setuplogger import setup_logger
 
-# config
-from configdirectory import ConfigDirectory
-
-# web scrapper modules
+# import selenium module
+import pickle as pkl
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,14 +13,21 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-# config variable
-my_config = ConfigDirectory("cineplex.ini","directory").config_directory()
+import os
+import time
+import csv
+from datetime import datetime
 
-# check for directories existence
-directory_0 = my_config["directory_save1"]
+# initilize config variable
+my_config = config_directory('cineplex.ini','directory')
+blob_config = config_directory('blobstorage.ini','blob_storage')
 
-if not os.path.isdir(directory_0):
-    os.makedirs(directory_0)
+account_name = blob_config["storage_name"]
+account_key = blob_config["key"]
+container_name = blob_config["container_name"]
+log_name = "cineplex_scraper.log"
+
+logger = setup_logger(log_name ,account_name, account_key,container_name )
 
 # create class to store data
 class Rental:
@@ -70,7 +75,7 @@ chrome_options.add_argument('--disable-software-rasterizer')
 chrome_options.add_argument('--headless')
 
 # set chrome driver
-driver = webdriver.Chrome(chrome_path, options =chrome_options)
+driver = webdriver.Chrome(service=Service(chrome_path), options =chrome_options)
 driver.get(url)
 
 # set timeout
@@ -78,8 +83,9 @@ timeout = 5
 try:
     xpath_movie_list = "//*[@id='movie-collections-grid']/div[2]/div"
     WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_movie_list)))
-except TimeoutException:
+except TimeoutException as err:
     print("Timed out waiting for page to load")
+    logger.error("An error message: {}".format(err))
 
 # get all the top rental links using list comprehension combined with selenium
 class_link = "movie-pdp-link"
@@ -88,7 +94,7 @@ titles_links = [item.get_attribute("href") for item in WebDriverWait(driver, tim
 
 # create empty list    
 rentals = []
-i = 0
+i = 1
 
 # append data into the list
 for link in titles_links:
@@ -96,6 +102,7 @@ for link in titles_links:
     print(f'downloading #{i}: {link} .......')
     i += 1 
     try:
+        # xpath string linked to "title", "year", "synopsis" data in the html
         xpath_title_1    = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/h1/span"
         xpath_title_2    = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[2]/h1/span"
         xpath_year       = "//*[@id='main-content']/div[3]/div[1]/div/div[3]/div/div[1]/div[2]/span"
@@ -110,16 +117,25 @@ for link in titles_links:
         # slow down the execution
         time.sleep(5)
 
-    except TimeoutException:
+    except TimeoutException as err:
         # retrieve data due to different html setup
-        synopsis = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_2))).text 
-    
+        title = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath_title_2))).text
+        synopsis = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_2))).text 
+        logger.error("An info message: {}".format(err))
+        
     # append data to rentals list
     rentals.append(Rental(title, year, synopsis))
-
+    logger.info("Successfully scrapped the top 20 rental movies")
+    
 # write csv file
-directory_1 = my_config["directory_save2"] + datetime.today().strftime('%Y-%m-%d')+ ".csv"            
-save_rentals_to_csv_file(rentals_list = rentals, file_name = directory_1)
+try: 
+    directory_1 = my_config['directory_1'] + datetime.today().strftime('%Y-%m-%d')+ ".csv"  
+except Exception as err:
+    logger.error("An error message: {}".format(err))
+    
+try:
+    save_rentals_to_csv_file(rentals_list = rentals, file_name = directory_1)
+    logger.info("Successfully saved cineplex data to DBFS storage")
+except Exception as err:
+    logger.error("An error message: {}".format(err))
 
-# close browser
-driver.quit()
