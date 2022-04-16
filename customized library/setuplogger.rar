@@ -1,5 +1,4 @@
 import logging
-import sys
 from azure_storage_logging.handlers import BlobStorageRotatingFileHandler
 
 
@@ -20,17 +19,15 @@ def setup_logger(log_name, account_name, account_key, container_name):
 
     """
 
-    logger = logging.getLogger('service_logger')
+    logger = logging.getLogger('debug_logger').setLevel(logging.NOTSET)
     log_formater = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(process)d - %(message)s')
     azure_blob_handler = BlobStorageRotatingFileHandler(filename = log_name, 
                                                         account_name= account_name,
                                                         account_key= account_key,
-                                                        maxBytes=5,
+                                                        maxBytes=4,
                                                         container= container_name)
-    azure_blob_handler.setLevel(logging.INFO)
+    azure_blob_handler.setLevel(logging.DEBUG)
     azure_blob_handler.setFormatter(log_formater)
     logger.addHandler(azure_blob_handler)
-
-    logger.warning('warning message')
     
     return logger

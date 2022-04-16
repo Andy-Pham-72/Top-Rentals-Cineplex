@@ -7,4 +7,4 @@ customlib.egg-info/top_level.txt
 customlib/config/__init__.py
 customlib/config/configdirectory.py
 customlib/customlogger/__init__.py
-customlib/customlogger/setuplogger.py
+customlib/customlogger/customlogger.py
