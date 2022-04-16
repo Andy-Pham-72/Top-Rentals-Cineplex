@@ -1,6 +1,6 @@
-# import custom module
+# import custome module
 from customlib.config.configdirectory import config_directory
-from customlib.customlogger.setuplogger import setup_logger
+from customlib.customlogger.customlogger import set_logger
 
 # import selenium module
 import pickle as pkl
@@ -22,12 +22,14 @@ from datetime import datetime
 my_config = config_directory('cineplex.ini','directory')
 blob_config = config_directory('blobstorage.ini','blob_storage')
 
-account_name = blob_config["storage_name"]
-account_key = blob_config["key"]
+storage_name = blob_config["storage_name"]
+storage_key = blob_config["key"]
 container_name = blob_config["container_name"]
-log_name = "cineplex_scraper.log"
+log_file_name = "cineplex_scraper"
+inside_log_name = "cineplex_scraper"
 
-logger = setup_logger(log_name ,account_name, account_key,container_name )
+# set logger
+logger, log_dir, log_name = set_logger(log_file_name)
 
 # create class to store data
 class Rental:
@@ -121,15 +123,24 @@ for link in titles_links:
         # retrieve data due to different html setup
         title = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath_title_2))).text
         synopsis = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath_synopsis_2))).text 
-        logger.error("An info message: {}".format(err))
+        logger.warning("An info message: {}".format(err))
+        
+    except Exception as err:
+        logger.error("An error message: {}".format(err))
         
     # append data to rentals list
-    rentals.append(Rental(title, year, synopsis))
-    logger.info("Successfully scrapped the top 20 rental movies")
+    try:
+        rentals.append(Rental(title, year, synopsis))
+        
+    except Exception as err:
+        logger.error("An error message: {}".format(err))
     
+
+
 # write csv file
 try: 
-    directory_1 = my_config['directory_1'] + datetime.today().strftime('%Y-%m-%d')+ ".csv"  
+    directory_1 = my_config['directory_1'] + datetime.today().strftime('%Y-%m-%d')+ ".csv"
+    logger.info("Successfully scrapped the top 36 rental movies")   
 except Exception as err:
     logger.error("An error message: {}".format(err))
     
@@ -139,3 +150,10 @@ try:
 except Exception as err:
     logger.error("An error message: {}".format(err))
 
+# set up an account access key 
+spark.conf.set(
+    "fs.azure.account.key.%s.blob.core.windows.net"%(storage_name),
+    storage_key)
+
+# transfer log file to azure blob storage
+dbutils.fs.cp('file:%s'%(log_dir), 'wasbs://%s@%s.blob.core.windows.net//log/%s'%(container_name, storage_name, log_name))
