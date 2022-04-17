@@ -6,5 +6,11 @@ customlib.egg-info/dependency_links.txt
 customlib.egg-info/top_level.txt
 customlib/config/__init__.py
 customlib/config/configdirectory.py
-customlib/customlogger/__init__.py
-customlib/customlogger/customlogger.py
+customlib/custom_cineplex/RetrieveRental.py
+customlib/custom_cineplex/__init__.py
+customlib/custom_cineplex/save_rentals_to_csv.py
+customlib/custom_logger/__init__.py
+customlib/custom_logger/customlogger.py
+customlib/custom_selenium/__init__.py
+customlib/custom_selenium/init_chrome.py
+customlib/custom_selenium/lastest_download.py
