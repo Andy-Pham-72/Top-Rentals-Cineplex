@@ -1,5 +1,8 @@
 # dbfs:/init/inst_dbfs_cli.sh
 # install databricks cli
+%sh
+mkdir /dbfs/init/
+
 cat > /dbfs/init/inst_dbfs_cli.sh <<EOF
 pip install databricks-cli
 pip install azure-storage-logging
