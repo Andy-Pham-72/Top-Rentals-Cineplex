@@ -1,0 +1,68 @@
+2022-04-17 15:44:06,837 - cineplex_scraper - WARNING - 3055 - An info message: Message: 
+Stacktrace:
+#0 0x55f1e9738ad3 <unknown>
+#1 0x55f1e9498568 <unknown>
+#2 0x55f1e94cec46 <unknown>
+#3 0x55f1e94cee01 <unknown>
+#4 0x55f1e9501a64 <unknown>
+#5 0x55f1e94ec61d <unknown>
+#6 0x55f1e94ff824 <unknown>
+#7 0x55f1e94ec4e3 <unknown>
+#8 0x55f1e94c1d1a <unknown>
+#9 0x55f1e94c2e75 <unknown>
+#10 0x55f1e9766efd <unknown>
+#11 0x55f1e978019b <unknown>
+#12 0x55f1e9768c65 <unknown>
+#13 0x55f1e9780ec8 <unknown>
+#14 0x55f1e975c360 <unknown>
+#15 0x55f1e979ca68 <unknown>
+#16 0x55f1e979cbe8 <unknown>
+#17 0x55f1e97b67fd <unknown>
+#18 0x7fc3dde38609 <unknown>
+
+2022-04-17 15:44:18,015 - cineplex_scraper - WARNING - 3055 - An info message: Message: 
+Stacktrace:
+#0 0x55f1e9738ad3 <unknown>
+#1 0x55f1e9498568 <unknown>
+#2 0x55f1e94cec46 <unknown>
+#3 0x55f1e94cee01 <unknown>
+#4 0x55f1e9501a64 <unknown>
+#5 0x55f1e94ec61d <unknown>
+#6 0x55f1e94ff824 <unknown>
+#7 0x55f1e94ec4e3 <unknown>
+#8 0x55f1e94c1d1a <unknown>
+#9 0x55f1e94c2e75 <unknown>
+#10 0x55f1e9766efd <unknown>
+#11 0x55f1e978019b <unknown>
+#12 0x55f1e9768c65 <unknown>
+#13 0x55f1e9780ec8 <unknown>
+#14 0x55f1e975c360 <unknown>
+#15 0x55f1e979ca68 <unknown>
+#16 0x55f1e979cbe8 <unknown>
+#17 0x55f1e97b67fd <unknown>
+#18 0x7fc3dde38609 <unknown>
+
+2022-04-17 15:44:59,013 - cineplex_scraper - WARNING - 3055 - An info message: Message: 
+Stacktrace:
+#0 0x55f1e9738ad3 <unknown>
+#1 0x55f1e9498568 <unknown>
+#2 0x55f1e94cec46 <unknown>
+#3 0x55f1e94cee01 <unknown>
+#4 0x55f1e9501a64 <unknown>
+#5 0x55f1e94ec61d <unknown>
+#6 0x55f1e94ff824 <unknown>
+#7 0x55f1e94ec4e3 <unknown>
+#8 0x55f1e94c1d1a <unknown>
+#9 0x55f1e94c2e75 <unknown>
+#10 0x55f1e9766efd <unknown>
+#11 0x55f1e978019b <unknown>
+#12 0x55f1e9768c65 <unknown>
+#13 0x55f1e9780ec8 <unknown>
+#14 0x55f1e975c360 <unknown>
+#15 0x55f1e979ca68 <unknown>
+#16 0x55f1e979cbe8 <unknown>
+#17 0x55f1e97b67fd <unknown>
+#18 0x7fc3dde38609 <unknown>
+
+2022-04-17 15:47:27,244 - cineplex_scraper - INFO - 3055 - Successfully scrapped the top 36 rental movies
+2022-04-17 15:47:27,381 - cineplex_scraper - INFO - 3055 - Successfully saved cineplex data to DBFS storage

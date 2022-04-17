@@ -1,0 +1,68 @@
+2022-04-17 15:17:49,259 - cineplex_scraper - WARNING - 2176 - An info message: Message: 
+Stacktrace:
+#0 0x55fcb9718ad3 <unknown>
+#1 0x55fcb9478568 <unknown>
+#2 0x55fcb94aec46 <unknown>
+#3 0x55fcb94aee01 <unknown>
+#4 0x55fcb94e1a64 <unknown>
+#5 0x55fcb94cc61d <unknown>
+#6 0x55fcb94df824 <unknown>
+#7 0x55fcb94cc4e3 <unknown>
+#8 0x55fcb94a1d1a <unknown>
+#9 0x55fcb94a2e75 <unknown>
+#10 0x55fcb9746efd <unknown>
+#11 0x55fcb976019b <unknown>
+#12 0x55fcb9748c65 <unknown>
+#13 0x55fcb9760ec8 <unknown>
+#14 0x55fcb973c360 <unknown>
+#15 0x55fcb977ca68 <unknown>
+#16 0x55fcb977cbe8 <unknown>
+#17 0x55fcb97967fd <unknown>
+#18 0x7f68558d3609 <unknown>
+
+2022-04-17 15:18:00,689 - cineplex_scraper - WARNING - 2176 - An info message: Message: 
+Stacktrace:
+#0 0x55fcb9718ad3 <unknown>
+#1 0x55fcb9478568 <unknown>
+#2 0x55fcb94aec46 <unknown>
+#3 0x55fcb94aee01 <unknown>
+#4 0x55fcb94e1a64 <unknown>
+#5 0x55fcb94cc61d <unknown>
+#6 0x55fcb94df824 <unknown>
+#7 0x55fcb94cc4e3 <unknown>
+#8 0x55fcb94a1d1a <unknown>
+#9 0x55fcb94a2e75 <unknown>
+#10 0x55fcb9746efd <unknown>
+#11 0x55fcb976019b <unknown>
+#12 0x55fcb9748c65 <unknown>
+#13 0x55fcb9760ec8 <unknown>
+#14 0x55fcb973c360 <unknown>
+#15 0x55fcb977ca68 <unknown>
+#16 0x55fcb977cbe8 <unknown>
+#17 0x55fcb97967fd <unknown>
+#18 0x7f68558d3609 <unknown>
+
+2022-04-17 15:18:42,286 - cineplex_scraper - WARNING - 2176 - An info message: Message: 
+Stacktrace:
+#0 0x55fcb9718ad3 <unknown>
+#1 0x55fcb9478568 <unknown>
+#2 0x55fcb94aec46 <unknown>
+#3 0x55fcb94aee01 <unknown>
+#4 0x55fcb94e1a64 <unknown>
+#5 0x55fcb94cc61d <unknown>
+#6 0x55fcb94df824 <unknown>
+#7 0x55fcb94cc4e3 <unknown>
+#8 0x55fcb94a1d1a <unknown>
+#9 0x55fcb94a2e75 <unknown>
+#10 0x55fcb9746efd <unknown>
+#11 0x55fcb976019b <unknown>
+#12 0x55fcb9748c65 <unknown>
+#13 0x55fcb9760ec8 <unknown>
+#14 0x55fcb973c360 <unknown>
+#15 0x55fcb977ca68 <unknown>
+#16 0x55fcb977cbe8 <unknown>
+#17 0x55fcb97967fd <unknown>
+#18 0x7f68558d3609 <unknown>
+
+2022-04-17 15:21:12,742 - cineplex_scraper - ERROR - 2176 - An error message: 'directory_1'
+2022-04-17 15:21:12,742 - cineplex_scraper - ERROR - 2176 - An error message: name 'directory_1' is not defined
