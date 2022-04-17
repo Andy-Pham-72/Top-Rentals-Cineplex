@@ -1,4 +1,4 @@
-# import custome module
+# import custom module
 from customlib.config.configdirectory import config_directory
 from customlib.customlogger.customlogger import set_logger
 
