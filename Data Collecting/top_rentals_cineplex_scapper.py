@@ -123,5 +123,10 @@ spark.conf.set(
     "fs.azure.account.key.%s.blob.core.windows.net"%(storage_name),
     storage_key)
 
+# transfer csv file into parquet and save to azure blob storage
+table = spark.read.option("header","true").option("sep","\t").csv(directory_1[5:]) # eg: directory_1[5:] is '/FileStore/tables/data/rentals-list-2022-04-21.csv'
+table.write.parquet("wasbs://{}@{}.blob.core.windows.net/top_cineplex_rental/{}.parquet".format(container_name, storage_name,directory_1[-27:-4])) # eg: directory_1[-27:-4] is 'rentals-list-2022-04-21'
+logger.info("Moved %s.parquet to azure 'top_cineplex_rental' blob"%(directory_1[-27:-4]))
+
 # transfer log file to azure blob storage
 dbutils.fs.cp('file:%s'%(log_dir), 'wasbs://%s@%s.blob.core.windows.net//log/%s'%(container_name, storage_name, log_name))
