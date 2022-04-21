@@ -132,10 +132,14 @@ tmdb.REQUESTS_TIMEOUT = (2,5)
 
 # find the imdb unique number from the top rental movie titles
 imdb_number=[]
+# initialize search engine
 search = tmdb.Search()
 for i in final_list:
+    # search by movie name
     response = search.movie(query = i)
+    # assign the movie id
     id = search.results[0]['id']
+    # assign info variable to look for "imdb_id"
     movie = tmdb.Movies(id).info()
     print("Searching for corresponding imdb id...")
     print(movie['imdb_id'])
