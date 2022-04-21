@@ -22,10 +22,14 @@ import shutil
 my_config = config_directory('imdb.ini','directory')
 blob_config = config_directory('blobstorage.ini','blob_storage')
 
+# assign the config into variables
 chrome_driver_path = my_config['chrome_path']
 url = my_config['url']
 download_dir = my_config['directory_0']
 log_file_name= my_config['log_file_name']
+storage_name = blob_config['storage_name']
+container_name = blob_config['container_name']
+storage_key =blob_config['key']
 
 # set logger
 logger, log_dir, log_name = set_logger(log_file_name)
@@ -67,23 +71,27 @@ logger.info('Downloaded all files')
 
 # set up an account access key 
 spark.conf.set(
-    "fs.azure.account.key.%s.blob.core.windows.net"%(storage_account),
+    "fs.azure.account.key.%s.blob.core.windows.net"%(storage_name),
     storage_key)
 
 # move all the downloaded files to azure blob
-dbutils.fs.cp('file:%s'%(download_dir), 'wasbs://%s@%s.blob.core.windows.net//raw_data/'%(container, storage_account), True)
+dbutils.fs.cp('file:%s'%(download_dir), 'wasbs://%s@%s.blob.core.windows.net//raw_data/'%(container_name, storage_name), True)
 logger.info('Moved all files to "raw_data" blob')
 
 # unzip gz files
 for i in range(len(download_list)):
     time.sleep(3)
-    output_dir = my_config['directory_1']
+    output_dir = "/dbfs/mnt/imdb/extracted/"
     with gzip.open( download_dir+"/"+ download_list[i] , 'rb') as f_in:
         with open( output_dir +"/"+ download_list[i][:-3] , 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
+logger.info('Unzipped all files to %s'%(output_dir))
 
-# move all the extracted files to azure blob
-dbutils.fs.cp('file:%s'%(output_dir), 'wasbs://%s@%s.blob.core.windows.net//extracted_data/'%(container, storage_account), True)
+# convert TSV files into parquet and save to azure blob storage
+for i in download_list:
+    table = spark.read.option("header","true").option("sep","\t").csv(output_dir[5:]+"/"+i[:-3] ) # output_dir[5:] is '/mnt/imdb/extracted/' and i[:-3] is the name of downloaded files eg: 'title.akas.tsv'
+    table.write.parquet("wasbs://{}@{}.blob.core.windows.net/extracted_data/{}.parquet".format(container_name, storage_name,i[:-7]) )
+
 logger.info('Moved all files to "extracted_data" blob')
 
 # transfer log file to azure blob storage
