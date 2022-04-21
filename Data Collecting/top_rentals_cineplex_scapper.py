@@ -16,6 +16,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+# import tmdbsimple module
+import tmdbsimple as tmdb
+
 # import some basic modules
 import os
 import time
@@ -25,6 +28,7 @@ from datetime import datetime
 # initilize config variable
 my_config = config_directory('cineplex.ini','directory')
 blob_config = config_directory('blobstorage.ini','blob_storage')
+tmdb_config = config_directory('tmdb.ini', 'key')
 
 storage_name = blob_config["storage_name"]
 storage_key = blob_config["key"]
@@ -118,15 +122,48 @@ try:
 except Exception as err:
     logger.error("An error message: {}".format(err))
 
+# assign the csv to a variable
+table_1 = spark.read.option("header","true").option("sep",",").csv(directory_1[5:-4]+".csv")
+
+# assign api key of the imdb
+tmdb.API_KEY = tmdb_config['key']
+# set timeout
+tmdb.REQUESTS_TIMEOUT = (2,5)
+
+# find the imdb unique number from the top rental movie titles
+imdb_number=[]
+search = tmdb.Search()
+for i in final_list:
+    response = search.movie(query = i)
+    id = search.results[0]['id']
+    movie = tmdb.Movies(id).info()
+    print("Searching for corresponding imdb id...")
+    print(movie['imdb_id'])
+    # add the movie name and imdb id into variable
+    imdb_number.append([movie['imdb_id'], i])
+
+# create a dataframe from imdb_number variable
+column = ["imdb_id","title"]
+table_2 = spark.createDataFrame(data=imdb_number,schema =column)
+
+# join 2 dataframes
+try:
+    table_3 = table_1.join(table_2, ['title'], "inner")
+    logger.info("Added 'imdb_id' column into dataframe")
+except Exception as err:
+    logger.warning("A warning message: {}".format(err))
+    
 # set up an account access key 
 spark.conf.set(
     "fs.azure.account.key.%s.blob.core.windows.net"%(storage_name),
     storage_key)
 
 # transfer csv file into parquet and save to azure blob storage
-table = spark.read.option("header","true").option("sep","\t").csv(directory_1[5:]) # eg: directory_1[5:] is '/FileStore/tables/data/rentals-list-2022-04-21.csv'
-table.write.parquet("wasbs://{}@{}.blob.core.windows.net/top_cineplex_rental/{}.parquet".format(container_name, storage_name,directory_1[-27:-4])) # eg: directory_1[-27:-4] is 'rentals-list-2022-04-21'
-logger.info("Moved %s.parquet to azure 'top_cineplex_rental' blob"%(directory_1[-27:-4]))
-
+try:
+    table_3.write.parquet("wasbs://{}@{}.blob.core.windows.net/top_cineplex_rental/{}.parquet".format(container_name, storage_name,directory_1[-27:-4])) # eg: directory_1[-27:-4] is 'rentals-list-2022-04-21'
+    logger.info("Moved %s.parquet to azure 'top_cineplex_rental' blob"%(directory_1[-27:-4]))
+except Exception as err:
+    logger.warning("A warning message: {}".format(err))
+    
 # transfer log file to azure blob storage
 dbutils.fs.cp('file:%s'%(log_dir), 'wasbs://%s@%s.blob.core.windows.net//log/%s'%(container_name, storage_name, log_name))
