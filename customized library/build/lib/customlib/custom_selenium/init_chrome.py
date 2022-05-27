@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from datetime import datetime
 
+
 def init_chrome_browser(download_path, chrome_driver_path, url):
     """
     Instatiates a Chrome browser.

@@ -12,11 +12,11 @@ def save_rentals_to_csv_file(rentals_list, file_name):
 
     """
     with open(file_name, 'w') as csvfile:
-        fieldnames = ['title', 'year', 'synopsis']
+        fieldnames = ['title', 'year']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
         for rental in rentals_list:
             
-            writer.writerow({'title' : rental.title, 'year' : int(rental.year), 'synopsis' : rental.synopsis })
+            writer.writerow({'title' : rental.title, 'year' : int(rental.year)})
             
