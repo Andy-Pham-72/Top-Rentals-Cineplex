@@ -1,3 +1,68 @@
+# import custom module
+from customlib.config.configdirectory import config_directory
+from customlib.custom_logger.customlogger import set_logger
+from customlib.custom_selenium.init_chrome import init_chrome_browser
+
+# import pyspark modules
+from pyspark.sql.functions import row_number, monotonically_increasing_id
+from pyspark.sql import Window
+
+# import selenium module
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# import tmbd and rottentomatoes module to retrieve movie rating
+from rotten_tomatoes_scraper.rt_scraper import MovieScraper
+
+# import some basic modules
+import time
+from datetime import datetime
+
+# initilize config variable
+my_config = config_directory('cineplex.ini','directory') # to get the directory of the top rental file
+blob_config = config_directory('blobstorage.ini','blob_storage')
+tmdb_config = config_directory('tmdb.ini', 'key')
+storage_name = blob_config["storage_name"]
+storage_key = blob_config["key"]
+container_name = blob_config["container_name"]
+rotten_config = config_directory('rotten_review.ini', 'review')
+
+# path to the chrome driver
+chrome_path = my_config['chrome_path']
+# create variables to grab the elements of the url
+alternate_class = rotten_config['alternate_class']
+# assign file name for the data name output
+file_name = rotten_config['file_name2']
+
+log_file_name = 'movie_rating'
+
+# set logger
+logger, log_dir, log_name = set_logger(log_file_name)
+
+# in this case I don't need download path for the init_chrome_browser() method but I still put a directory anyway
+download_path = "/mnt/container-data/"
+
+# set up an account access key 
+spark.conf.set(
+                "fs.azure.account.key.%s.blob.core.windows.net"%(storage_name),
+                storage_key)
+
+# assign rotten tomatoes search url into a variable
+search_url = rotten_config['search_url']
+
+# assign the string file name into variables
+imdb_rating = 'title.ratings'
+top_rental = my_config['directory_save1']
+# get the today file name
+top_rental = top_rental + datetime.today().strftime('%Y-%m-%d')
+
+# assign the file data into a variable
+imdb_df = spark.read.option("header","true").parquet("wasbs://{}@{}.blob.core.windows.net/extracted_data/{}.parquet".format(container_name, storage_name,imdb_rating))
+
+# assign the top rental data into a variable
+top_df = spark.read.option("header", "true").parquet("wasbs://{}@{}.blob.core.windows.net/top_cineplex_rental/{}.parquet".format(container_name, storage_name,top_rental[-23:])) #eg: top_rental[-23:] as 'rentals-list-2022-04-23'
+
 # create rating_list
 rating_list = []
 
@@ -79,7 +144,10 @@ for n in range(len(top_imdb_list)):
         print(imdb_id)
         rating_list.append((imdb_id, rating_null, rating_null, rating_null ))
         logger.info("Adding Null values for the title: {} that does not have 'imdb_id'".format(title))
-        
+
+# quit driver
+driver_1.quit()
+
 # create a list for dataframe column's names
 columns = ['imdb_id', 'imdb_rating', 'tomato_meter', 'audience_score']
 table = spark.createDataFrame(data=rating_list,schema =columns)
