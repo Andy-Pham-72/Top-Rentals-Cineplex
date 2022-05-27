@@ -119,24 +119,38 @@ for title in titles:
 
             # get all the critics review elements in the url
             rows = driver.find_elements(by=By.XPATH, value= row_class)
-
-            # retrieve all the top critic reviews from the url
-            for row in rows:
-                print("downloading review...")
-                critics_review = row.find_element(by=By.XPATH, value= review_class).text
-                critics_name = row.find_element(by=By.XPATH, value= name_class).text
-                # append the data into the list
-                critics.append((imdb_id,critics_name,critics_review))
+            
+            if len(rows) == 0 :  # for the movies that don't have enough "Top Critics" from Rotten Tomatoes
+                driver = init_chrome_browser(download_path, chrome_path, url[:-17])
+                rows = driver.find_elements(by=By.XPATH, value= row_class)
+                for row in rows:
+                    print("downloading review...")
+                    critics_review = row.find_element(by=By.XPATH, value= review_class).text
+                    critics_name = row.find_element(by=By.XPATH, value= name_class).text
+                    # append the data into the list
+                    critics.append((imdb_id,critics_name,critics_review))
+                    
+            else:
+                # retrieve all the top critic reviews from the url
+                for row in rows:
+                    print("downloading review...")
+                    critics_review = row.find_element(by=By.XPATH, value= review_class).text
+                    critics_name = row.find_element(by=By.XPATH, value= name_class).text
+                    # append the data into the list
+                    critics.append((imdb_id,critics_name,critics_review))
         
         # for the title doesn't have the "imdb_id" yet
         else: 
             critics.append((imdb_id,critics_null,critics_null))
             # logger
-            logger.info("Adding Null values for the title: {} that does not have 'imdb_id'".format(imdb_id))
+            logger.info("Adding Null values for the title: {} that does not have 'imdb_id'".format(title))
             
     except Exception as err:
         logger.warning("A warning message: {}".format(err))
-        
+
+# stop the driver
+driver.quit()
+
 # assign columns name
 columns = ['imdb_id', 'reviewer', 'review']
 # create data frame
