@@ -2,19 +2,14 @@
 from customlib.config.configdirectory import config_directory
 from customlib.custom_logger.customlogger import set_logger
 from customlib.custom_selenium.init_chrome import init_chrome_browser
-from customlib.custom_selenium.lastest_download import latest_download_file
 from customlib.custom_cineplex.RetrieveRental import RetrieveRental
 from customlib.custom_cineplex.save_rentals_to_csv import save_rentals_to_csv_file
 
 # import selenium module
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # import pyspark modules
 from pyspark.sql.functions import row_number, monotonically_increasing_id, udf, lit, when, date_sub
@@ -352,3 +347,6 @@ else:
         logger.info("Moved %s.parquet to azure 'top_cineplex_rental' blob"%(directory_1[-27:-4]))
     except Exception as err:
         logger.warning("A warning message: {}".format(err))
+        
+# transfer log file to azure blob storage
+dbutils.fs.cp('file:%s'%(log_dir), 'wasbs://%s@%s.blob.core.windows.net//log/%s'%(container_name, storage_name, log_name))
