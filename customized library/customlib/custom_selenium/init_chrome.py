@@ -28,7 +28,7 @@ def init_chrome_browser(download_path, chrome_driver_path, url):
     options.add_argument('--start-maximized')
     options.add_argument('window-size=2560,1440')
     print(f"{datetime.now()}    Launching Chrome...")
-    browser = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
+    browser = webdriver.Chrome(service = Service(chrome_driver_path), options=options)
     print(f"{datetime.now()}    Chrome launched.")
     browser.get(url)
     print(f"{datetime.now()}    Browser ready to use.")
