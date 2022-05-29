@@ -2,14 +2,19 @@
 from customlib.config.configdirectory import config_directory
 from customlib.custom_logger.customlogger import set_logger
 from customlib.custom_selenium.init_chrome import init_chrome_browser
+from customlib.custom_selenium.lastest_download import latest_download_file
 from customlib.custom_cineplex.RetrieveRental import RetrieveRental
 from customlib.custom_cineplex.save_rentals_to_csv import save_rentals_to_csv_file
 
 # import selenium module
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # import pyspark modules
 from pyspark.sql.functions import row_number, monotonically_increasing_id, udf, lit, when, date_sub
@@ -175,8 +180,8 @@ blob = BlobClient.from_connection_string(conn_str=conn_str, container_name="caps
 top_synopsis = []
 
 if blob.exists() == True:
-    # assign top_synopsis.parquet into df
-    df = spark.read.parquet("wasbs://{}@{}.blob.core.windows.net/top_synopsis/top_synopsis.parquet".format(container_name, storage_name))
+    # assign top_synopsis.parquet into synopsis_table
+    synopsis_table = spark.read.parquet("wasbs://{}@{}.blob.core.windows.net/top_synopsis/top_synopsis.parquet".format(container_name, storage_name))
     # for loop to add data into top_synopsis table
     for i in final_list['title']:
         # search by movie name
@@ -188,7 +193,7 @@ if blob.exists() == True:
         print("Searching for corresponding imdb id...")
         print(movie['imdb_id'])
         # assign the imdb_id from synopsis_table into a variable
-        list_id = synopsis_table.select('imdb_id').toPandas()['imdb_id']
+        list_id = synopsis_table.select('src_imdb_id').toPandas()['src_imdb_id']
         if movie['imdb_id'] == None and movie['id'] not in list_id:
             top_synopsis.append([str(movie['id']), movie['overview']])
         elif movie['imdb_id'] not in list_id:
