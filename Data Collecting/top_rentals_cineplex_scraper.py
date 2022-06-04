@@ -24,9 +24,7 @@ from azure.storage.blob import BlobClient
 import tmdbsimple as tmdb
 
 # import some basic modules
-import os
 import time
-import csv
 from datetime import datetime,timedelta
 
 # initilize config variable
@@ -80,7 +78,7 @@ i = 1
 # append data into the list
 for link in titles_links:
     driver.get(link)
-    print(f'{datetime.now()}    downloading #{i}: {link} .......')
+    logger.info('downloading #{}:  {} .......'.format(i, link))
     i += 1 
     try:
         # xpath string linked to "title", "year", "synopsis" data in the html
@@ -159,8 +157,7 @@ for i in final_list['title']:
     id = search.results[0]['id']
     # assign info variable to look for "imdb_id"
     movie = tmdb.Movies(id).info()
-    print("Searching for corresponding imdb id...")
-    print(movie['imdb_id'])
+    logger.info("Searching for corresponding 'imdb_id' for the title: {}".format(movie['imdb_id']))
     # ordering of the movies
     order_num += 1
     # add the movie name and imdb id into variable
@@ -187,10 +184,9 @@ if blob.exists() == True:
         id = search.results[0]['id']
         # assign info variable to look for "imdb_id"
         movie = tmdb.Movies(id).info()
-        print("Searching for corresponding imdb id...")
-        print(movie['imdb_id'])
+        logger.info("Searching for corresponding 'imdb_id' for the synopsis: {}".format(movie['imdb_id']))
         # assign the imdb_id from synopsis_table into a variable
-        list_id = synopsis_table.select('src_imdb_id').toPandas()['src_imdb_id']
+        list_id = synopsis_table.select('imdb_id').toPandas()['imdb_id']
         if movie['imdb_id'] == None and movie['id'] not in list_id:
             top_synopsis.append([str(movie['id']), movie['overview']])
         elif movie['imdb_id'] not in list_id:
@@ -206,8 +202,7 @@ else:
         id = search.results[0]['id']
         # assign info variable to look for "imdb_id"
         movie = tmdb.Movies(id).info()
-        print("Searching for corresponding imdb id...")
-        print(movie['imdb_id'])
+        logger.info("Searching for corresponding 'imdb_id' for the synopsis: {}".format(movie['imdb_id']))
         if movie['imdb_id'] == None :
             top_synopsis.append([str(movie['id']), movie['overview']])
         else:
@@ -272,7 +267,7 @@ if blob.exists() == True:
     table_merge = table_merge.withColumn( 'action',
                                         when(table_merge.title != table_merge.src_title, 'UPSERT' )
                                        .when(table_merge.src_imdb_id.isNull() & table_merge.is_current, 'NOTCURRENT')
-                                       .when(table_merge.imdb_id.inNull(), 'INSERT')
+                                       .when(table_merge.imdb_id.isNull(), 'INSERT')
                                        .otherwise('NOACTION')
                                         )
     table_merge.show()
