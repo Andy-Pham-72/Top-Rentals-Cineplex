@@ -4,96 +4,13 @@ Each dataset is contained in a gzipped, which is stored at [raw_data](https://gi
 
 The first line in each file contains headers that describe what is in each column. A ‘\N’ is used to denote that a particular field is missing or null for that title/name. The snippets of the datasets are as follows:
 
-**title.akas.tsv** - Contains the following information for titles:
 
-* titleId (string) - a tconst, an alphanumeric unique identifier of the title
-* ordering (integer) – a number to uniquely identify rows for a given titleId
-* title (string) – the localized title
-* region (string) - the region for this version of the title
-* language (string) - the language of the title
-* types (array) - Enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". New values may be added in the future without warning
-* attributes (array) - Additional terms to describe this alternative title, not enumerated
-* isOriginalTitle (boolean) – 0: not original title; 1: original title
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>titleId</th>
-      <th>ordering</th>
-      <th>title</th>
-      <th>region</th>
-      <th>language</th>
-      <th>types</th>
-      <th>attributes</th>
-      <th>isOriginalTitle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>tt0000001</td>
-      <td>1</td>
-      <td>Карменсіта</td>
-      <td>UA</td>
-      <td>\N</td>
-      <td>imdbDisplay</td>
-      <td>\N</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>tt0000001</td>
-      <td>2</td>
-      <td>Carmencita</td>
-      <td>DE</td>
-      <td>\N</td>
-      <td>\N</td>
-      <td>literal title</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>tt0000001</td>
-      <td>3</td>
-      <td>Carmencita - spanyol tánc</td>
-      <td>HU</td>
-      <td>\N</td>
-      <td>imdbDisplay</td>
-      <td>\N</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>tt0000001</td>
-      <td>4</td>
-      <td>Καρμενσίτα</td>
-      <td>GR</td>
-      <td>\N</td>
-      <td>imdbDisplay</td>
-      <td>\N</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>tt0000001</td>
-      <td>5</td>
-      <td>Карменсита</td>
-      <td>RU</td>
-      <td>\N</td>
-      <td>imdbDisplay</td>
-      <td>\N</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
 ---------------------------------
 
 **title.basics.tsv** - Contains the following information for titles:
 
-* tconst (string) - alphanumeric unique identifier of the title
+* tconst (string) (changed to) => `imdb_id` - alphanumeric unique identifier of the title
 * titleType (string) – the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)
 * primaryTitle (string) – the more popular title / the title used by the filmmakers on promotional materials at the point of release
 * originalTitle (string) - original title, in the original language
@@ -188,9 +105,9 @@ The first line in each file contains headers that describe what is in each colum
 
 **title.crew.tsv** – Contains the director and writer information for all the titles in IMDb. Fields include:
 
-* tconst (string) - alphanumeric unique identifier of the title
-* directors (array of nconsts) - director(s) of the given title
-* writers (array of nconsts) – writer(s) of the given title
+* tconst (string) (changed to) => `imdb_id` - alphanumeric unique identifier of the title
+* directors (array of nconsts) (changed to) => `director_id` - director(s) of the given title
+* writers (array of nconsts) (changed to) => `writer_id` – writer(s) of the given title
 
 
 <table border="1" class="dataframe">
@@ -241,7 +158,7 @@ The first line in each file contains headers that describe what is in each colum
 
 **title.principals.tsv** – Contains the principal cast/crew for titles
 
-* tconst (string) - alphanumeric unique identifier of the title
+* tconst (string) (changed to) => `imdb_id` - alphanumeric unique identifier of the title
 * ordering (integer) – a number to uniquely identify rows for a given titleId
 * nconst (string) - alphanumeric unique identifier of the name/person
 * category (string) - the category of job that person was in
@@ -314,7 +231,7 @@ The first line in each file contains headers that describe what is in each colum
 
 **title.ratings.tsv** – Contains the IMDb rating and votes information for titles
 
-* tconst (string) - alphanumeric unique identifier of the title
+* tconst (string) (changed to) => `imdb_id` - alphanumeric unique identifier of the title
 * averageRating – weighted average of all the individual user ratings
 * numVotes - number of votes the title has received
 
@@ -372,7 +289,7 @@ The first line in each file contains headers that describe what is in each colum
 * birthYear – in YYYY format
 * deathYear – in YYYY format if applicable, else '\N'
 * primaryProfession (array of strings)– the top-3 professions of the person
-* knownForTitles (array of tconsts) – titles the person is known for
+* knownForTitles (array of tconsts) – titles the person is known for (used as `imdb_id` collection)
 
 
 <table border="1" class="dataframe">
@@ -436,5 +353,3 @@ The first line in each file contains headers that describe what is in each colum
   </tbody>
 </table>
 </div>
-
----------------------------------
