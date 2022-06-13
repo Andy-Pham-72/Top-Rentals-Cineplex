@@ -131,10 +131,8 @@ create table top_rental_cineplex.fact_top_rental_detail(
         imdb_id VARCHAR not null,
         rental_id int not null,
         rating_id int not null,
-        synopsis_id int not null,
         title VARCHAR not null,
         ordering smallint not null,
-        synopsis VARCHAR,
         imdb_rating FLOAT,
         tomato_meter FLOAT,
         audience_score FLOAT,
@@ -144,7 +142,5 @@ create table top_rental_cineplex.fact_top_rental_detail(
         foreign key (rental_id)
          references top_rental_cineplex.dim_top_cineplex_rental_list(rental_id),
         foreign key (rating_id)
-         references top_rental_cineplex.dim_top_rental_rating(rating_id),     
-        foreign key (synopsis_id)
-         references top_rental_cineplex.dim_synopsis(synopsis_id)
+         references top_rental_cineplex.dim_top_rental_rating(rating_id)
 );
