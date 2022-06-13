@@ -34,7 +34,7 @@ The project data is collected/scraped from multiple sources by using Selenium We
 
 1. Top Rentals Cineplex : is the source to be scraped Top 36 Movie Rentals’ title on Cineplex website.
 
-2. IMDB.com : Official subsets of IMDB data that are available for personal and commercial use. IMDB data sets contain ”imdb_id” which is used as primary/foreign key to link tables.Following downloaded list:
+2. IMDB.com : Official subsets of IMDB data that are available for personal and commercial use. IMDB data sets contain ”imdb_id” which is used as primary/foreign key to link tables.Following downloaded list: <br />
 * `title.basics.tsv.gz` contains the essential information for the movie titles.
 * `title.crew.tsv.gz` contains the director and writer information for tall the titles.
 * `title.principals.tsv.gz` contains the principal cast/crew for titles 
@@ -52,17 +52,17 @@ The project data is collected/scraped from multiple sources by using Selenium We
 I use Azure Databricks which is a fast, easy and collaborative Apache Spark-based big data analytics service designed for data science and data engineering.
 
 I created 4 notebooks in Databricks and incorporated some customized libraries: <br />
-    - **imdb_datasets_downloader** : 
+    - **imdb_datasets_downloader** :  <br />
            * Automates the official data sets downloading process from IMDB website. (using Selenium) <br />
            * Extracts gz files and convert tsv files to parquet files. (using PySpark) <br />
            * Saves files to Azure Blob Storage (ABS) as data warehouse. <br />
-    - **top_rentals_cineplex_scrapper** : 
+    - **top_rentals_cineplex_scrapper** :  <br />
            * Scrapes Top 36 movie rentals’ titles on Cineplex website save as parquet file to ABS (using PySpark). <br />
            * Applies Slowly Changing Dimension Type 2 for table structure that stores and manages the current and historical data over time in terms of the top titles orders (e.g: Top 1, 2 ,3 ,.. and the data is current or not current with date, time). <br />
-    - **theMovieDb_and_RottenTomatoes_data_scraper** :
+    - **theMovieDb_and_RottenTomatoes_data_scraper** : <br />
            * Scrapes synopsis from themoviedb.org (using API) and top critics from rottentomatoes.com (using Selenium).  <br />
            * Saves table as parquet file to ABS (using PySpark). <br />
-    - **top_rental_rating_from_imdb_and_rotten_tomatoes_data** :
+    - **top_rental_rating_from_imdb_and_rotten_tomatoes_data** : <br />
            * Extracts imdb_rating from IMDB data set and merge with Tomatometer and Audience Score from rottentomatoes.com into 1 table with corresponding imdb_id of the Top 36 movie rentals (using PySpark). <br />
            * Saves as parquet file to ABS. <br />
 
