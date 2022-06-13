@@ -55,16 +55,16 @@ I created 4 notebooks in Databricks and incorporated some customized libraries: 
     - **imdb_datasets_downloader** : 
            * Automates the official data sets downloading process from IMDB website. (using Selenium)
            * Extracts gz files and convert tsv files to parquet files. (using PySpark)
-           * Saves files to Azure Blob Storage (ABS) as data warehouse. <br>
+           * Saves files to Azure Blob Storage (ABS) as data warehouse. <br />
     - **top_rentals_cineplex_scrapper** : 
            * Scrapes Top 36 movie rentals’ titles on Cineplex website save as parquet file to ABS (using PySpark).
-           * Applies Slowly Changing Dimension Type 2 for table structure that stores and manages the current and historical data over time in terms of the top titles orders (e.g: Top 1, 2 ,3 ,.. and the data is current or not current with date, time). <br>
+           * Applies Slowly Changing Dimension Type 2 for table structure that stores and manages the current and historical data over time in terms of the top titles orders (e.g: Top 1, 2 ,3 ,.. and the data is current or not current with date, time). <br />
     - **theMovieDb_and_RottenTomatoes_data_scraper** :
            * Scrapes synopsis from themoviedb.org (using API) and top critics from rottentomatoes.com (using Selenium).
-           * Saves table as parquet file to ABS (using PySpark).<br>
+           * Saves table as parquet file to ABS (using PySpark). <br />
     - **top_rental_rating_from_imdb_and_rotten_tomatoes_data** :
            * Extracts imdb_rating from IMDB data set and merge with Tomatometer and Audience Score from rottentomatoes.com into 1 table with corresponding imdb_id of the Top 36 movie rentals (using PySpark).
-           * Saves as parquet file to ABS. <br>
+           * Saves as parquet file to ABS. <br />
 
 ## Top rentals cineplex’s ER diagram
 
