@@ -22,7 +22,7 @@ This is when the project Top Rentals Cineplex comes in handy, it can quickly sho
 * Top critics (from Rotten Tomato)
 
 For my more demo visualizations please click this link below:
-[toprentalcineplex.my.canva.site](toprentalcineplex.my.canva.site)
+[toprentalcineplex.my.canva.site](https://toprentalcineplex.my.canva.site/)
 
 ## PROJECT ETL DIAGRAM
 
