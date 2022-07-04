@@ -14,3 +14,5 @@ class TestInitChrome(unittest.TestCase):
         init_chrome_browser(download_path, chrome_driver_path, url)
         self.assertEqual(mock_stdout.getvalue(), expected_output)
         
+if __name__ == '__main__':
+    unittest.main()
