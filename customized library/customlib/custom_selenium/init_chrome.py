@@ -6,7 +6,7 @@ from datetime import datetime
 
 def init_chrome_browser(download_path, chrome_driver_path, url):
     """
-    Instatiates a Chrome browser.
+    Initializes a Chrome browser.
 
     :param download_path: str
         The download path to place files downloaded from this browser session.
@@ -16,7 +16,7 @@ def init_chrome_browser(download_path, chrome_driver_path, url):
         The URL address of the page to initially load.
 
     :return:
-        The instantiated browser object.
+        The initiated browser object.
     """
 
     options = Options()
